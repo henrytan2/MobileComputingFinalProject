@@ -1,7 +1,7 @@
 package com.ucdenver.puppylove;
 
 import android.os.Bundle;
-
+import com.ucdenver.puppylove.data.*;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
