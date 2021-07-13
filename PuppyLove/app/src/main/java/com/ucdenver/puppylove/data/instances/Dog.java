@@ -15,7 +15,7 @@ public class Dog implements IDog {
         String query = "select * from dogs";
         ArrayList<com.ucdenver.puppylove.data.models.Dog> response = null;
         try {
-            cursor = DataSingleton.instance.getReadableDatabase().rawQuery(query, null);
+            cursor = DataSingleton.instance.getDB().rawQuery(query, null);
             while (cursor.moveToNext()) {
                 response.add(new com.ucdenver.puppylove.data.models.Dog(
                         cursor.getInt(0),
@@ -37,7 +37,7 @@ public class Dog implements IDog {
         String query = "select * from dogs order by random() limit 1";
         com.ucdenver.puppylove.data.models.Dog response = null;
         try {
-            cursor = DataSingleton.instance.getReadableDatabase().rawQuery(query, null);
+            cursor = DataSingleton.instance.getDB().rawQuery(query, null);
             while (cursor.moveToNext()) {
                 response = new com.ucdenver.puppylove.data.models.Dog(
                         cursor.getInt(0),

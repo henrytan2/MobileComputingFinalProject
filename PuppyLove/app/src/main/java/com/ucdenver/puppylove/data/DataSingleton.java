@@ -1,9 +1,12 @@
 package com.ucdenver.puppylove.data;
 
-public final class DataSingleton {
-    static public DataBaseHelper instance;
+import android.database.sqlite.SQLiteDatabase;
 
-    static public void SetInstance(DataBaseHelper _instance) {
+public final class DataSingleton {
+    static public DataManager instance;
+
+    static public void SetInstance(DataManager _instance) {
         instance = _instance;
     }
+
 }

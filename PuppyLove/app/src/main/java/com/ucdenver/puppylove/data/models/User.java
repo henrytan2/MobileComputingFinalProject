@@ -18,7 +18,7 @@ public class User {
     static public final void CreateTable(SQLiteDatabase db) {
         String createTableQuery = "CREATE TABLE " + tableName + "(" +
                 idColumn + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                userNameColumn + "TEXT, " +
+                userNameColumn + "TEXT UNIQUE, " +
                 passwordColumn + "TEXT, " +
                 firstNameColumn + "TEXT, " +
                 lastNameColumn + "TEXT, " +
