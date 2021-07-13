@@ -16,11 +16,11 @@ public class Dog {
     static public void CreateTable(SQLiteDatabase db) {
         String createTableQuery = "CREATE TABLE " + tableName
                 + "(" + idColumn + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + nameColumn + "TEXT, "
-                + ageColumn + "TEXT, "
-                + breedColumn + "TEXT, "
-                + descriptionColumn + "TEXT, "
-                + imageFilePathColumn + "TEXT)";
+                + nameColumn + " TEXT, "
+                + ageColumn + " TEXT, "
+                + breedColumn + " TEXT, "
+                + descriptionColumn + " TEXT, "
+                + imageFilePathColumn + " TEXT)";
         try {
             db.execSQL(createTableQuery);
         } catch (SQLException ex) {

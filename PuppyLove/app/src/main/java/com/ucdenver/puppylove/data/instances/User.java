@@ -62,8 +62,9 @@ public class User implements IUser {
     }
 
     @Override
-    public void createAccount(com.ucdenver.puppylove.data.models.User user) {
-        String passwordHashcode = Integer.toString(user.getPassword().hashCode());
+    public void createAccount(String username, String password, String firstName, String lastName,
+                       String email, String phone, String occupation) {
+        String passwordHashcode = Integer.toString(password.hashCode());
         String query = "insert into users " +
                 "(" + com.ucdenver.puppylove.data.models.User.userNameColumn + ", " +
                 com.ucdenver.puppylove.data.models.User.passwordColumn + ", " +
@@ -73,13 +74,13 @@ public class User implements IUser {
                 com.ucdenver.puppylove.data.models.User.phoneColumn + ", " +
                 com.ucdenver.puppylove.data.models.User.occupationColumn + ") " +
                 "values (" +
-                user.getUserName() + ", " +
-                passwordHashcode + ", " +
-                user.getFirstName() + ", " +
-                user.getLastName() + ", " +
-                user.getEmail() + ", " +
-                user.getPhone() + ", " +
-                user.getOccupation() + ");";
+                "'" + username + "', " +
+                "'" + passwordHashcode + "', " +
+                "'" + firstName + "', " +
+                "'" + lastName + "', " +
+                "'" + email + "', " +
+                "'" + phone + "', " +
+                "'" + occupation + "');";
         try {
             DataSingleton.instance.getDB().execSQL(query);
         } catch (Exception ex) {
