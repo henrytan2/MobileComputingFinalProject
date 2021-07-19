@@ -17,7 +17,7 @@ public class Dog {
         String createTableQuery = "CREATE TABLE " + tableName
                 + "(" + idColumn + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + nameColumn + " TEXT, "
-                + ageColumn + " TEXT, "
+                + ageColumn + " NUMBER, "
                 + breedColumn + " TEXT, "
                 + descriptionColumn + " TEXT, "
                 + imageFilePathColumn + " TEXT)";
@@ -37,11 +37,12 @@ public class Dog {
 
     public Dog() {}
 
-    public Dog(int id, String name, int age, String breed, String imageFilePath) {
+    public Dog(int id, String name, int age, String breed, String description, String imageFilePath) {
         this.id = id;
         this.name = name;
         this.age = age;
         this.breed = breed;
+        this.description = description;
         this.imageFilePath = imageFilePath;
     }
 
@@ -69,7 +70,7 @@ public class Dog {
         this.age = age;
     }
 
-    public String getBreed(String breed) {
+    public String getBreed() {
         return this.breed;
     }
 

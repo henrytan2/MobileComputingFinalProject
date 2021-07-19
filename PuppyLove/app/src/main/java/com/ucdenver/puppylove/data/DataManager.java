@@ -1,6 +1,5 @@
 package com.ucdenver.puppylove.data;
 
-import com.ucdenver.puppylove.FirstFragment;
 import com.ucdenver.puppylove.data.models.Dog;
 import com.ucdenver.puppylove.data.models.User;
 

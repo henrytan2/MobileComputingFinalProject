@@ -1,53 +1,48 @@
 package com.ucdenver.puppylove;
 
-import android.os.Bundle;
-import com.ucdenver.puppylove.data.*;
-import com.google.android.material.snackbar.Snackbar;
-
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
-import android.view.View;
-
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-
-import com.ucdenver.puppylove.databinding.ActivityMainBinding;
-
+import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.ucdenver.puppylove.data.DataManager;
+import com.ucdenver.puppylove.data.DataSingleton;
+import com.ucdenver.puppylove.data.Interactor;
 
 public class MainActivity extends AppCompatActivity {
-
-    private AppBarConfiguration appBarConfiguration;
-    private ActivityMainBinding binding;
+    private ImageView dogImageView;
+    private TextView dogNameTextView;
+    private TextView dogAgeTextView;
+    private TextView dogBreedTextView;
+    private TextView dogDescriptionTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        DataManager dataManager = new DataManager(this);
+        DataSingleton.SetInstance(dataManager);
+
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        Toolbar toolbar = findViewById(R.id.mainActivityToolbar);
+        setSupportActionBar(toolbar);
 
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        this.dogImageView = findViewById(R.id.dogImageView);
+        this.dogNameTextView = findViewById(R.id.dogNameTextView);
+        this.dogAgeTextView = findViewById(R.id.dogAgeTextView);
+        this.dogBreedTextView = findViewById(R.id.dogBreedTextView);
+        this.dogDescriptionTextView = findViewById(R.id.dogDescription);
 
-        setSupportActionBar(binding.toolbar);
-
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-
-        binding.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        this.loadRandomDog();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
@@ -67,10 +62,14 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        return NavigationUI.navigateUp(navController, appBarConfiguration)
-                || super.onSupportNavigateUp();
+    private void loadRandomDog() {
+        com.ucdenver.puppylove.data.models.Dog dog = Interactor.getDogInstance().fetchRandom();
+        this.dogNameTextView.setText(dog.getName());
+        this.dogAgeTextView.setText(Integer.toString(dog.getAge()));
+        this.dogBreedTextView.setText(dog.getBreed());
+        this.dogDescriptionTextView.setText(dog.getDescription());
+        int drawableID = getResources().getIdentifier(dog.getImageFilePath(), "drawable", this.getPackageName());
+        Drawable dogImage = getResources().getDrawable(drawableID);
+        this.dogImageView.setImageDrawable(dogImage);
     }
 }

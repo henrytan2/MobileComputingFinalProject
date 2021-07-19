@@ -15,7 +15,7 @@ public final class Interactor {
         this.User = new User();
     }
 
-    static public Interactor getInstance() {
+    static private Interactor getInstance() {
         if (instance == null) {
             instance = new Interactor();
         }
@@ -23,10 +23,16 @@ public final class Interactor {
     }
 
     static public IDog getDogInstance() {
+        if (instance == null) {
+                getInstance();
+        }
         return Dog;
     }
 
     static public IUser getUserInstance() {
+        if (instance == null) {
+            getInstance();
+        }
         return User;
     }
 }

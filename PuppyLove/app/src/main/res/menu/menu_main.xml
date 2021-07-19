@@ -4,7 +4,9 @@
     tools:context="com.ucdenver.puppylove.MainActivity">
     <item
         android:id="@+id/action_settings"
+        android:iconTint="#050505"
         android:orderInCategory="100"
         android:title="@string/action_settings"
+        android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
         app:showAsAction="never" />
 </menu>
