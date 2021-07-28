@@ -7,6 +7,17 @@
         android:iconTint="#050505"
         android:orderInCategory="100"
         android:title="@string/action_settings"
-        android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
-        app:showAsAction="never" />
+        android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
+    <item
+        android:id="@+id/action_edit_profile"
+        android:iconTint="#050505"
+        android:orderInCategory="100"
+        android:title="Edit Profile"
+        android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
+    <item
+        android:id="@+id/action_logout"
+        android:iconTint="#050505"
+        android:orderInCategory="100"
+        android:title="Logout"
+        android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
 </menu>

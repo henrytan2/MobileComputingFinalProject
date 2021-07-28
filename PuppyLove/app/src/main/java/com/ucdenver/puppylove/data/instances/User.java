@@ -34,20 +34,36 @@ public class User implements IUser {
     }
 
     @Override
-    public boolean login(String username, String password) {
+    public com.ucdenver.puppylove.data.models.User login(String username, String password) {
         Cursor cursor = null;
-        String query = "select user_name, password " +
+        String query = "select * " +
                 "from users " +
                 "where user_name = '" + username + "';";
-        boolean response = false;
+        com.ucdenver.puppylove.data.models.User response = null;
         try {
             cursor = DataSingleton.instance.getDB().rawQuery(query, null);
-            cursor.moveToFirst();
-            String dbUserName = cursor.getString(0);
-            String dbPassword = cursor.getString(1);
-            String passwordHashCode = this.hashPassword(password);
-            if (dbUserName.equals(username) && dbPassword.equals(passwordHashCode)) {
-                response = true;
+            while (cursor.moveToNext()) {
+                int id = cursor.getInt(0);
+                String dbUserName = cursor.getString(1);
+                String dbPassword = cursor.getString(2);
+                String firstName = cursor.getString(3);
+                String lastName = cursor.getString(4);
+                String email = cursor.getString(5);
+                String phone = cursor.getString(6);
+                String occupation = cursor.getString(7);
+                String passwordHashCode = this.hashPassword(password);
+                if (dbUserName.equals(username) && dbPassword.equals(passwordHashCode)) {
+                    response = new com.ucdenver.puppylove.data.models.User(
+                            id,
+                            dbUserName,
+                            dbPassword,
+                            firstName,
+                            lastName,
+                            email,
+                            phone,
+                            occupation
+                            );
+                }
             }
         } catch (Exception ex) {
             Log.i("info", ex.getMessage());
@@ -56,11 +72,12 @@ public class User implements IUser {
     }
 
     @Override
-    public void resetPassword(com.ucdenver.puppylove.data.models.User user, String password) {
+    public void resetPassword(String username, String email, String password) {
         String passwordHashcode = this.hashPassword(password);
         String query = "update users " +
                 "set password = " + passwordHashcode +
-                "where id = " + user.getId();
+                "where user_name = " + username +
+                "and email = " + email;
         try {
             DataSingleton.instance.getDB().execSQL(query);
         } catch (Exception ex) {
@@ -94,6 +111,58 @@ public class User implements IUser {
         } catch (SQLiteConstraintException ex) {
             response.setErrorCode(WhyCreateAccountFailed.UsernameAlreadyExists);
         } catch (Exception ex) {
+            Log.i("info", ex.getMessage());
+        }
+        return response;
+    }
+
+    @Override
+    public void editProfile(int id, String firstName, String lastName, String phone, String occupation) {
+        String query = "update users " +
+                "set " + com.ucdenver.puppylove.data.models.User.firstNameColumn + " = '" + firstName + "', " +
+                com.ucdenver.puppylove.data.models.User.lastNameColumn + " = '" + lastName + "', " +
+                com.ucdenver.puppylove.data.models.User.phoneColumn + " = '" + phone + "', " +
+                com.ucdenver.puppylove.data.models.User.occupationColumn + " = '" + occupation + "'" +
+                " where " + com.ucdenver.puppylove.data.models.User.idColumn + " = " + id;
+
+        try {
+            DataSingleton.instance.getDB().execSQL(query);
+        } catch (Exception ex){
+            Log.i("info", ex.getMessage());
+        }
+    }
+
+    @Override
+    public com.ucdenver.puppylove.data.models.User fetchByUserName(String username) {
+        Cursor cursor = null;
+        String query = "select * " +
+                "from users " +
+                "where user_name = '" + username + "';";
+        com.ucdenver.puppylove.data.models.User response = null;
+
+        try {
+            cursor = DataSingleton.instance.getDB().rawQuery(query, null);
+            while(cursor.moveToNext()) {
+                int id = cursor.getInt(0);
+                String dbUserName = cursor.getString(1);
+                String dbPassword = cursor.getString(2);
+                String firstName = cursor.getString(3);
+                String lastName = cursor.getString(4);
+                String email = cursor.getString(5);
+                String phone = cursor.getString(6);
+                String occupation = cursor.getString(7);
+                response = new com.ucdenver.puppylove.data.models.User(
+                        id,
+                        dbUserName,
+                        dbPassword,
+                        firstName,
+                        lastName,
+                        email,
+                        phone,
+                        occupation
+                );
+            }
+        } catch (Exception ex){
             Log.i("info", ex.getMessage());
         }
         return response;

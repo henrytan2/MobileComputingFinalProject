@@ -46,7 +46,7 @@ public final class DataSingleton {
         );
         Interactor.getDogInstance().insert(
                 "Max",
-                3,
+                1,
                 "Golden Retriever",
                 "Loyal golden retriever!",
                 "golden_retriever"

@@ -80,5 +80,31 @@
                 android:textSize="20sp" />
         </TableRow>
 
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="40dp"
+            android:weightSum="1.0">
+            <Button
+                android:id="@+id/adoptButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:backgroundTint="@color/green"
+                android:text="@string/adoptButtonLabel" />
+
+            <Button
+                android:id="@+id/rejectButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:backgroundTint="@color/red"
+                android:text="@string/rejectButtonLabel" />
+        </TableRow>
+
     </TableLayout>
 </LinearLayout>

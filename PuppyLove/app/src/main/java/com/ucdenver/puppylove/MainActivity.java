@@ -3,16 +3,15 @@ package com.ucdenver.puppylove;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.ucdenver.puppylove.data.DataManager;
-import com.ucdenver.puppylove.data.DataSingleton;
 import com.ucdenver.puppylove.data.Interactor;
 
 public class MainActivity extends AppCompatActivity {
@@ -21,11 +20,11 @@ public class MainActivity extends AppCompatActivity {
     private TextView dogAgeTextView;
     private TextView dogBreedTextView;
     private TextView dogDescriptionTextView;
+    private Button adoptButton;
+    private Button rejectButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        DataManager dataManager = new DataManager(this);
-        DataSingleton.SetInstance(dataManager);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -37,6 +36,20 @@ public class MainActivity extends AppCompatActivity {
         this.dogAgeTextView = findViewById(R.id.dogAgeTextView);
         this.dogBreedTextView = findViewById(R.id.dogBreedTextView);
         this.dogDescriptionTextView = findViewById(R.id.dogDescription);
+        this.adoptButton = findViewById(R.id.adoptButton);
+        this.rejectButton = findViewById(R.id.rejectButton);
+
+        MainActivity _this = this;
+        this.adoptButton.setOnClickListener(v -> {
+            boolean match = _this.calculateMatch();
+            if (match) {
+                MatchSuccessFragment matchSuccessFragment = new MatchSuccessFragment();
+                matchSuccessFragment.show(getSupportFragmentManager(), "");
+            }
+            this.loadRandomDog();
+        });
+
+        this.rejectButton.setOnClickListener(v -> _this.loadRandomDog());
 
         this.loadRandomDog();
     }
@@ -58,6 +71,21 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
             return true;
         }
+        else if (id == R.id.action_edit_profile) {
+            EditProfileFragment editProfileFragment = new EditProfileFragment();
+            editProfileFragment.show(getSupportFragmentManager(), "");
+        }
+        else if (id == R.id.action_logout) {
+            LoggedInUser.clearInstance();
+            this.moveToLoginActivity();
+        }
+        int a = 2;
+
+        switch(a) {
+            case 1:
+                break;
+
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -71,5 +99,26 @@ public class MainActivity extends AppCompatActivity {
         int drawableID = getResources().getIdentifier(dog.getImageFilePath(), "drawable", this.getPackageName());
         Drawable dogImage = getResources().getDrawable(drawableID);
         this.dogImageView.setImageDrawable(dogImage);
+    }
+
+    private boolean calculateMatch() {
+        boolean response = false;
+        double randomNumber = Math.random();
+        if (randomNumber < 0.5) {
+            response = true;
+        }
+        return response;
+    }
+
+    private void moveToLoginActivity() {
+        Intent myIntent = new Intent(MainActivity.this, LoginActivity.class);
+        myIntent.putExtra("", "");
+        MainActivity.this.startActivity(myIntent);
+    }
+
+    private void moveToForgotPasswordActivity() {
+        Intent myIntent = new Intent(MainActivity.this, ForgotPasswordActivity.class);
+        myIntent.putExtra("", "");
+        MainActivity.this.startActivity(myIntent);
     }
 }
